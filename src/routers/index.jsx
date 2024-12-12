@@ -12,6 +12,7 @@ import ManageCategory from "../pages/admin/manage-category/ManageCategory";
 import CreateCategory from "../pages/admin/create-category/CreateCategory";
 import CategoryCreate from "../components/CategoryCreate";
 import ProductCreate from "../components/ProductCreate";
+import NotFound from "../pages/notFound/NotFound";
 
 const Router = () => {
   return (
@@ -29,8 +30,11 @@ const Router = () => {
           <Route path="create-category" element={<CreateCategory />} />
           <Route path="create-category/:id" element={<CategoryCreate />} />
           <Route path="manage-category" element={<ManageCategory />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

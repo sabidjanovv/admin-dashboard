@@ -1,11 +1,14 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const Admin = () => {
+  const navigate = useNavigate()
   return (
     <div id="admin" className="flex">
       <div className="w-80 h-screen bg-gray-800 p-6 text-white sticky top-0 left-0">
-        <p className="text-2xl font-bold mb-6">Admin Dashboard</p>
+        <NavLink to={"/"}>
+          <p className="text-2xl font-bold mb-6">Admin Dashboard</p>
+        </NavLink>
         <ul className="space-y-4">
           <li>
             <NavLink
@@ -55,7 +58,6 @@ const Admin = () => {
               Manage Category
             </NavLink>
           </li>
-          
         </ul>
       </div>
 

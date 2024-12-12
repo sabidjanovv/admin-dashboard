@@ -43,10 +43,15 @@ const ProductCreate = () => {
             price: Number(res.data.price),
             categoryId: Number(res.data.categoryId) || "",
             stock: Number(res.data.stock),
-            average_rating: Number(res.data.average_rating) || 0, 
+            average_rating: Number(res.data.average_rating) || 0,
           });
         })
-        .catch((err) => console.error("Error fetching product:", err));
+        .catch((error) => {
+          console.error("Error fetching category:", error);
+          if (error.response?.status === 500) {
+            navigate("/admin/manage-product/not-found");
+          }
+        });
     }
   }, [id, token]);
 

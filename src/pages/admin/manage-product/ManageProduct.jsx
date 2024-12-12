@@ -53,6 +53,7 @@ const ManageProduct = () => {
           data={product}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          isAdmin={true}
         />
       ) : (
         <p className="text-gray-600 text-center">

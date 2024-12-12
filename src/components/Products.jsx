@@ -2,7 +2,7 @@ import React from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashCan } from "react-icons/fa6";
 
-const Products = ({ data, onEdit, onDelete }) => {
+const Products = ({ data, onEdit, onDelete,isAdmin }) => {
   const reversedData = data?.slice().reverse();
 
   const productItems = reversedData?.map((product) => (
@@ -21,7 +21,7 @@ const Products = ({ data, onEdit, onDelete }) => {
         <span className="text-md text-green-600 mt-2 font-medium">USD</span>
       </p>
 
-      <div className="flex justify-between mt-4">
+      {isAdmin ? <div className="flex justify-between mt-4">
         <MdOutlineEdit
           onClick={() => onEdit(product.id)}
           className="text-xl text-blue-600 cursor-pointer hover:text-blue-800 transition-all duration-200"
@@ -31,7 +31,7 @@ const Products = ({ data, onEdit, onDelete }) => {
           onClick={() => onDelete(product.id)}
           className="text-xl text-red-600 cursor-pointer hover:text-red-800 transition-all duration-200"
         />
-      </div>
+      </div> : ""}
 
       {/* <p className="text-md text-gray-600 mt-2 font-medium">{product.id} ID</p> */}
     </div>

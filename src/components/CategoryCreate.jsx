@@ -20,9 +20,14 @@ const CategoryCreate = () => {
           },
         })
         .then((res) => setCategory(res.data))
-        .catch((error) => console.error("Error fetching category:", error));
+        .catch((error) => {
+          console.error("Error fetching category:", error);
+          if (error.response?.status === 500) {
+            navigate("/admin/manage-category/not-found"); 
+          }
+        });
     }
-  }, [id, token]);
+  }, [id, token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
