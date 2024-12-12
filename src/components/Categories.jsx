@@ -1,13 +1,8 @@
-// src/components/Categories.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 const Categories = ({ data, onEdit, onDelete }) => {
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   const categoryItems = data?.map((category) => (
     <div
@@ -41,14 +36,7 @@ const Categories = ({ data, onEdit, onDelete }) => {
 
   return (
     <div className="container mx-auto mt-5">
-      <div className="mb-4">
-        <button
-          onClick={handleBack}
-          className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition-colors"
-        >
-          Back
-        </button>
-      </div>
+      <BackButton/>
       <div className="flex gap-4 flex-wrap justify-center">{categoryItems}</div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import { request } from "../../../api";
 import { useSelector } from "react-redux";
+import ProductCardSkeleton from "../../../components/ProductCardSkeleton";
 
 const ManageProduct = () => {
   const navigate = useNavigate();
@@ -46,8 +47,8 @@ const ManageProduct = () => {
     }
   };
   return (
-    <div>
-      {loading && <p>Loading...</p>}
+    <div className="mt-10">
+      {loading && <ProductCardSkeleton />}
       {product.length > 0 ? (
         <Products
           data={product}
@@ -55,11 +56,9 @@ const ManageProduct = () => {
           onDelete={handleDelete}
           isAdmin={true}
         />
-      ) : (
-        <p className="text-gray-600 text-center">
-          No Products available.
-        </p>
-      )}
+      ) : !loading ? (
+        <p className="text-gray-600 text-center">No Products available.</p>
+      ):""}
     </div>
   );
 };

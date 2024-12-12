@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { request } from "@/api";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import BackButton from "./BackButton";
 
 const CategoryCreate = () => {
   const [loading, setLoading] = useState(false);
@@ -58,10 +59,6 @@ const CategoryCreate = () => {
     }
   };
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-400 to-teal-500">
       <div className="bg-white shadow-lg rounded px-8 pt-6 pb-8 w-full max-w-md">
@@ -91,13 +88,7 @@ const CategoryCreate = () => {
           ></textarea>
           {error && <p className="text-red-600 text-sm text-center">{error}</p>}
           <div className="flex justify-between items-center">
-            <button
-              type="button"
-              onClick={handleBack}
-              className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors"
-            >
-              Back
-            </button>
+            <BackButton />
             <button
               type="submit"
               className={`py-2 px-4 rounded-md text-white font-semibold ${

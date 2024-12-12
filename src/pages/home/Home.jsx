@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import { request } from "@/api";
 import Products from "@/components/Products";
 import { useFetch } from "../../hooks/useFetch";
+import ProductCardSkeleton from "../../components/ProductCardSkeleton";
 
 const Home = () => {
   const { data, loading } = useFetch("/product/get");
-
-  useEffect(() => {
-    request
-      .get("/product/get")
-      .then((res) => setProducts(res.data))
-      .catch((error) => console.error("Error fetching products:", error));
-  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex flex-col items-center text-white">
@@ -24,11 +18,15 @@ const Home = () => {
         </p>
       </div>
 
-      <div className="w-full max-w-6xl bg-white text-gray-800 p-6 rounded-lg shadow-lg">
+      <div className="w-full max-w-[90rem] bg-white text-gray-800 p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-5 text-center">
           Our Products
         </h2>
-        {loading && <p>Loading...</p>}
+        {loading && (
+          <>
+            <ProductCardSkeleton />
+          </>
+        )}
         <Products data={data} />
       </div>
 

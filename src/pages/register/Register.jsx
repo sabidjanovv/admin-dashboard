@@ -3,10 +3,12 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { signIn } from "@/redux/slices/token-slice";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  window.scrollTo(0, 0);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -18,12 +20,12 @@ const Register = () => {
     request.post("/auth/signup-admin", user).then((res) => {
       console.log(res);
       dispatch(signIn(res.data.access_token));
-      navigate("/admin");
+      navigate("/admin/manage-product");
     });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+    <div className="min-h-[92vh] bg-gradient-to-r from-blue-500 to-purple-600 grid place-items-center text-white">
       <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-4xl font-bold text-center text-blue-600 mb-6">
           Sign Up
@@ -74,6 +76,7 @@ const Register = () => {
           >
             Sign Up
           </button>
+          <BackButton />
         </form>
       </div>
     </div>

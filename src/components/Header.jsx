@@ -7,8 +7,8 @@ const Header = () => {
   const activeClass = "text-blue-500 border-b-2 border-blue-500";
 
   return (
-    <header className="bg-gray-800 text-white shadow-md">
-      <nav className="container mx-auto flex items-center justify-between p-4">
+    <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50">
+      <nav className="container mx-auto flex items-center justify-between p-6">
         <h1 className="text-xl font-bold">
           <NavLink to="/" className="hover:text-blue-500">
             MyApp
@@ -23,14 +23,6 @@ const Header = () => {
           >
             Home
           </NavLink>
-          {/* <NavLink
-            to="/categories"
-            className={({ isActive }) =>
-              `hover:text-blue-400 ${isActive ? activeClass : ""}`
-            }
-          >
-            Categories
-          </NavLink> */}
           <NavLink
             to="/register"
             className={({ isActive }) =>
@@ -41,7 +33,7 @@ const Header = () => {
           </NavLink>
           {token ? (
             <NavLink
-              to={"/admin"}
+              to={"/admin/manage-product"}
               className={({ isActive }) =>
                 `hover:text-blue-400 ${isActive ? activeClass : ""}`
               }
