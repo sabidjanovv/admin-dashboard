@@ -8,13 +8,13 @@ const Header = () => {
 
   return (
     <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50">
-      <nav className="container mx-auto flex items-center justify-between p-6">
+      <nav className="w-full max-w-screen-xl h-[60px] px-4 sm:px-6 lg:px-16 py-4 flex items-center justify-between mx-auto">
         <h1 className="text-xl font-bold">
           <NavLink to="/" className="hover:text-blue-500">
             MyApp
           </NavLink>
         </h1>
-        <div className="flex space-x-6">
+        <div className="flex space-x-4 sm:space-x-6">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -23,6 +23,16 @@ const Header = () => {
           >
             Home
           </NavLink>
+
+          <NavLink
+            to="/wishlist"
+            className={({ isActive }) =>
+              `hover:text-blue-400 ${isActive ? activeClass : ""}`
+            }
+          >
+            Wishlist
+          </NavLink>
+
           <NavLink
             to="/register"
             className={({ isActive }) =>
@@ -31,6 +41,7 @@ const Header = () => {
           >
             Register
           </NavLink>
+
           {token ? (
             <NavLink
               to={"/admin/manage-product"}

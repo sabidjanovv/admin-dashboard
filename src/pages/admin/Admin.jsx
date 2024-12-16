@@ -58,6 +58,18 @@ const Admin = () => {
               Manage Category
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                `block p-3 rounded-md transition-colors duration-200 text-lg ${
+                  isActive ? "bg-blue-600" : "hover:bg-blue-500"
+                }`
+              }
+              to={"manage-admin"}
+            >
+              Manage Admin
+            </NavLink>
+          </li>
         </ul>
       </div>
 

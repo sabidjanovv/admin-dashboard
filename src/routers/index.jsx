@@ -13,15 +13,20 @@ import CreateCategory from "../pages/admin/create-category/CreateCategory";
 import CategoryCreate from "../components/CategoryCreate";
 import ProductCreate from "../components/ProductCreate";
 import NotFound from "../pages/notFound/NotFound";
+import ManageAdmin from "../pages/admin/manage-admin/ManageAdmin";
+import Wishlist from "../components/Wishlist";
+// import Detail from "../pages/details/Detail";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
+        {/* <Route path="product/:id" element={<Detail />} /> */}
       </Route>
+      <Route path="login" element={<Login />} />
       <Route path="/" element={<Auth />}>
         <Route path="admin" element={<Admin />}>
           <Route path="create-product" element={<CreateProduct />} />
@@ -30,6 +35,7 @@ const Router = () => {
           <Route path="create-category" element={<CreateCategory />} />
           <Route path="create-category/:id" element={<CategoryCreate />} />
           <Route path="manage-category" element={<ManageCategory />} />
+          <Route path="manage-admin" element={<ManageAdmin />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         {/* <Route path="*" element={<NotFound />} /> */}

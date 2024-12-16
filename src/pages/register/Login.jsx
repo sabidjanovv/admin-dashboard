@@ -2,76 +2,103 @@ import { request } from "@/api";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signIn } from "@/redux/slices/token-slice";
-import { useNavigate } from "react-router-dom";
-import BackButton from "../../components/BackButton";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
-const Login = () => {
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().min(6).required(),
+  })
+  .required();
+
+const Register = () => {
+  const [eye, setEye] = useState({
+    password: false,
+  });
+  const dipatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    let formData = new FormData(e.target);
-    const user = Object.fromEntries(formData);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onBlur",
+  });
+  console.log(watch("password"));
 
-    request
-      .post("/auth/signin-admin", user)
-      .then((res) => {
-        dispatch(signIn(res.data.access_token));
-        navigate("/admin/manage-product");
-      })
-      .catch((err) => {
-        alert(err.response.data.message.message);
-      })
-      .finally(() => setLoading(false));
+  const onSignUp = (data) => {
+    request.post("/auth/signin-admin", data).then((res) => {
+      console.log(res);
+      dipatch(signIn(res.data.access_token));
+      navigate("/");
+    });
   };
-
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
-      <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-4xl font-bold text-center text-blue-600 mb-6">
-          Sign In
-        </h2>
-        <p className="text-center text-gray-600 mb-4">
-          Login to access the admin panel.
-        </p>
-        <form onSubmit={handleSignIn} className="space-y-5">
-          <div>
+    <div className="w-full min-h-screen grid grid-cols-2 max-[850px]:grid-cols-1">
+      <div className='bg-[url("src/assets/images/register.png")] bg-cover max-[850px]:hidden bg-center bg-no-repeat'></div>
+      <div className="flex max-[1100px]:p-10 max-[500px]:p-5 items-center pl-[87px]">
+        <form
+          onSubmit={handleSubmit(onSignUp)}
+          className="max-w-[456px] max-[850px]:max-w-full w-full"
+          action=""
+        >
+          <p className="text-[40px] font-medium mb-6">Sign In</p>
+          <p className="text-slate-400 mb-8">
+            Already have an account?
+            <Link className="text-green-500" to={"/register"}>
+              {" "}
+              Sign up
+            </Link>
+          </p>
+          <label className="block mb-8 max-[500px]:mb-4" htmlFor="">
             <input
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("email")}
               type="email"
-              name="email"
+              className="w-full border-b h-10 outline-none focus:border-green-500"
               placeholder="Email"
-              required
             />
-          </div>
-          <div>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 rounded-md text-white font-semibold transition-colors ${
-              loading
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {loading ? "Loading..." : "Sign In"}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </label>
+          <label className="block mb-8 max-[500px]:mb-4" htmlFor="">
+            <div className="relative ">
+              <input
+                {...register("password")}
+                type={eye.password ? "text" : "password"}
+                className="w-full border-b h-10 outline-none focus:border-green-500"
+                placeholder="Password"
+              />
+              {watch("password") && (
+                <span
+                  onClick={() =>
+                    setEye((prev) => ({ ...prev, password: !prev.password }))
+                  }
+                  className="absolute select-none top-[50%] translate-y-[-50%] right-0 text-xl cursor-pointer"
+                >
+                  {eye.password ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                </span>
+              )}
+            </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </label>
+
+          <button className="w-full h-12 mt-8 max-[500px]:mt-4 bg-black text-white rounded-md hover:opacity-70">
+            Sign In
           </button>
-            <BackButton />
         </form>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

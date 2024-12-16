@@ -1,36 +1,66 @@
-import React, { useEffect, useState } from "react";
-import { request } from "@/api";
-import Products from "@/components/Products";
+import React from "react";
 import { useFetch } from "../../hooks/useFetch";
+import Products from "../../components/Products";
 import ProductCardSkeleton from "../../components/ProductCardSkeleton";
+import SliderSection from "../../components/SliderSection";
+import Brands from "../../components/Brands";
+import NewProducts from "../../components/NewProducts";
 
 const Home = () => {
   const { data, loading } = useFetch("/product/get");
 
+  // Separate new products (if needed, filter logic can be moved here)
+  const newProducts = data?.filter((product) => {
+    const currentDate = new Date();
+    const createdAtDate = new Date(product.createdAt);
+    const differenceInDays =
+      (currentDate - createdAtDate) / (1000 * 60 * 60 * 24);
+    return differenceInDays <= 2; // Show products created within the last 2 days
+  });
+
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex flex-col items-center text-white">
-      <div className="w-full max-w-4xl text-center my-8">
-        <h1 className="text-5xl font-bold mb-4">
-          Welcome to <span className="text-yellow-300">Our Store</span>
-        </h1>
-        <p className="text-lg font-medium">
-          Explore a wide range of high-quality products curated just for you.
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+      {/* Header Slider Section */}
+      <SliderSection />
 
-      <div className="w-full max-w-[90rem] bg-white text-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-5 text-center">
-          Our Products
+      {/* Brands Section */}
+      <Brands />
+
+      {/* Main Content */}
+      <div className="w-full max-w-screen-xl bg-white text-gray-800 p-6 rounded-lg shadow-lg">
+        {/* Just In (New Products Section) */}
+        <h2 className="text-3xl font-semibold mb-5 text-start text-gray-900">
+          Just In
         </h2>
-        {loading && (
-          <>
-            <ProductCardSkeleton />
-          </>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : newProducts?.length ? (
+          <NewProducts data={newProducts} />
+        ) : (
+          <p className="text-lg text-gray-500">No new products available.</p>
         )}
-        <Products data={data} />
+
+        {/* All Products Section */}
+        <h2 className="text-3xl font-semibold mt-10 mb-5 text-start text-gray-900">
+          All Products
+        </h2>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : (
+          <Products data={data} />
+        )}
       </div>
 
-      <footer className="mt-12 text-center text-sm">
+      {/* Footer */}
+      <footer className="mt-12 w-full bg-gray-200 py-4 text-center text-sm text-gray-600">
         © {new Date().getFullYear()} Your Store. All rights reserved.
       </footer>
     </div>
