@@ -12,7 +12,7 @@ const NewProducts = ({ data, onEdit, onDelete, isAdmin }) => {
     const createdAtDate = new Date(product.createdAt);
     const differenceInDays =
       (currentDate - createdAtDate) / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-    return differenceInDays <= 2; // Include only products created within 2 days
+    return differenceInDays <= 4; // Include only products created within 2 days
   });
 
   // Reverse the filtered data to show the latest products first
